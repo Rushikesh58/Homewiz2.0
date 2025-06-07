@@ -3,21 +3,17 @@ services:
   - type: web
     name: homewiz-chat-backend
     runtime: docker
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME # Change this
+    repo: https://github.com/Rushikesh58/Homewiz2.0.git # Change this
     region: ohio # e.g., ohio, oregon
     plan: free
     dockerfilePath: ./backend/Dockerfile
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
-      - key: EMAIL_HOST
-        fromSecret: EMAIL_HOST
-      - key: EMAIL_PORT
-        fromSecret: EMAIL_PORT
       - key: EMAIL_USER
         fromSecret: EMAIL_USER
-      - key: EMAIL_PASSWORD
-        fromSecret: EMAIL_PASSWORD
+      - key: EMAIL_PASS
+        fromSecret: EMAIL_PASS
     # Free tier instances spin down. A persistent disk ensures the
     # SQLite DB file is not lost.
     disk:
@@ -29,7 +25,7 @@ services:
   - type: web
     name: homewiz-chat-frontend
     runtime: static
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME # Change this
+    repo: https://github.com/Rushikesh58/Homewiz2.0 # Change this
     region: ohio
     plan: free
     staticPublishPath: ./frontend/dist

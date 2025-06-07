@@ -13,10 +13,6 @@ def check_inventory(beds: int) -> str | None:
     return None
 
 def send_tour_confirmation_email(recipient_email: str, name: str, unit_id: str, property_address: str):
-    email_user = os.getenv("EMAIL_USER")
-    email_password = os.getenv("EMAIL_PASSWORD")
-    email_host = os.getenv("EMAIL_HOST")
-    email_port = int(os.getenv("EMAIL_PORT"))
 
     subject = "Your Tour Confirmation"
     body = f"""
@@ -36,14 +32,13 @@ def send_tour_confirmation_email(recipient_email: str, name: str, unit_id: str, 
 
     msg = MIMEText(body)
     msg['Subject'] = subject
-    msg['From'] = email_user
+    msg['From'] = os.getenv("GMAIL_USER")
     msg['To'] = recipient_email
 
     try:
-        with smtplib.SMTP(email_host, email_port) as server:
-            server.starttls()
-            server.login(email_user, email_password)
-            server.sendmail(email_user, recipient_email, msg.as_string())
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(os.getenv("GMAIL_USER"), os.getenv("GMAIL_PASS"))
+            smtp.send_message(msg)
             print(f"Email sent to {recipient_email}")
     except Exception as e:
         # In a real app, log this error properly
